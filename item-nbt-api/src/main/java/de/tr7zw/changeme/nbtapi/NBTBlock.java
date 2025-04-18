@@ -1,19 +1,18 @@
 package de.tr7zw.changeme.nbtapi;
 
-import org.bukkit.block.Block;
-
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
+import org.bukkit.block.Block;
 
 /**
  * Helper class to store NBT data to Block Locations. Use getData() to get the
  * NBT instance. Important notes:
- * 
+ *
  * - Non BlockEntities can not have NBT data. This stores the data to the chunk
  * instead!
- * 
+ *
  * - The data is really just on the location. If the block gets
  * broken/changed/exploded/moved etc., the data is still on that location!
- * 
+ *
  * @author tr7zw
  *
  */
@@ -31,8 +30,8 @@ public class NBTBlock {
     }
 
     public NBTCompound getData() {
-        return nbtChunk.getPersistentDataContainer().getOrCreateCompound("blocks")
+        return nbtChunk.getPersistentDataContainer()
+                .getOrCreateCompound("blocks")
                 .getOrCreateCompound(block.getX() + "_" + block.getY() + "_" + block.getZ());
     }
-
 }

@@ -4,10 +4,8 @@ import com.mojang.datafixers.DSL.TypeReference;
 import com.mojang.datafixers.DataFixer;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.DynamicOps;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
-import de.tr7zw.changeme.nbtapi.NBTContainer;
 import de.tr7zw.changeme.nbtapi.NBTReflectionUtil;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
@@ -18,7 +16,7 @@ import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ReflectionMethod;
 public class DataFixerUtil {
 
     // these values can be found in DetectedVersion inside mc
-    // Finding pre 1.12.2 values is left as an exercise for the reader, 
+    // Finding pre 1.12.2 values is left as an exercise for the reader,
     // as DetectedVersion is not a thing there
     public static final int VERSION1_12_2 = 1343;
     public static final int VERSION1_16_5 = 2586;
@@ -39,20 +37,24 @@ public class DataFixerUtil {
     public static Object fixUpRawItemData(Object nbt, int fromVersion, int toVersion)
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         DataFixer dataFixer = (DataFixer) ReflectionMethod.GET_DATAFIXER.run(null);
-        TypeReference itemStackReference = (TypeReference) ClassWrapper.NMS_REFERENCES.getClazz()
+        TypeReference itemStackReference = (TypeReference) ClassWrapper.NMS_REFERENCES
+                .getClazz()
                 .getField(MojangToMapping.getMapping().get("net.minecraft.util.datafix.fixes.References#ITEM_STACK"))
                 .get(null);
-        DynamicOps<Object> nbtOps = (DynamicOps<Object>) ClassWrapper.NMS_NBTOPS.getClazz()
-                .getField(MojangToMapping.getMapping().get("net.minecraft.nbt.NbtOps#INSTANCE")).get(null);
-        Dynamic<Object> fixed = dataFixer.update(itemStackReference, new Dynamic<Object>(nbtOps, nbt), fromVersion,
-                toVersion);
+        DynamicOps<Object> nbtOps = (DynamicOps<Object>) ClassWrapper.NMS_NBTOPS
+                .getClazz()
+                .getField(MojangToMapping.getMapping().get("net.minecraft.nbt.NbtOps#INSTANCE"))
+                .get(null);
+        Dynamic<Object> fixed =
+                dataFixer.update(itemStackReference, new Dynamic<Object>(nbtOps, nbt), fromVersion, toVersion);
         return fixed.getValue();
     }
 
     public static ReadWriteNBT fixUpItemData(ReadWriteNBT nbt, int fromVersion, int toVersion)
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         return NBT.wrapNMSTag(fixUpRawItemData(
-                NBTReflectionUtil.getToCompount(((NBTCompound) nbt).getCompound(), ((NBTCompound) nbt)), fromVersion,
+                NBTReflectionUtil.getToCompount(((NBTCompound) nbt).getCompound(), ((NBTCompound) nbt)),
+                fromVersion,
                 toVersion));
     }
 
@@ -62,7 +64,7 @@ public class DataFixerUtil {
      * an exception, when the target version is before 1.12.2. (Assuming no one will
      * update 1.8 items to 1.11, if so, provide the version numbers to the converter
      * method directly)
-     * 
+     *
      * @return
      */
     public static int getCurrentVersion() {
@@ -96,5 +98,4 @@ public class DataFixerUtil {
         throw new NbtApiException(
                 "Trying to update data *to* a version before 1.12.2? Something is probably going wrong, contact the plugin author.");
     }
-
 }

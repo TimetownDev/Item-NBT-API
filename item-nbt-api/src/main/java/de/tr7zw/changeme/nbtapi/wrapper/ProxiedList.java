@@ -1,11 +1,10 @@
 package de.tr7zw.changeme.nbtapi.wrapper;
 
+import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
+import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBTCompoundList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
-import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBTCompoundList;
 
 class ProxiedList<E extends NBTProxy> implements ProxyList<E> {
 
@@ -20,7 +19,7 @@ class ProxiedList<E extends NBTProxy> implements ProxyList<E> {
     @Override
     public E get(int index) {
         ReadWriteNBT tag = nbt.get(index);
-        return new ProxyBuilder<E>(tag,proxy).build();
+        return new ProxyBuilder<E>(tag, proxy).build();
     }
 
     @Override
@@ -33,7 +32,6 @@ class ProxiedList<E extends NBTProxy> implements ProxyList<E> {
         nbt.remove(index);
     }
 
-
     @Override
     public Iterator<E> iterator() {
         return new Itr();
@@ -42,7 +40,7 @@ class ProxiedList<E extends NBTProxy> implements ProxyList<E> {
     @Override
     public E addCompound() {
         ReadWriteNBT tag = nbt.addCompound();
-        return new ProxyBuilder<E>(tag,proxy).build();
+        return new ProxyBuilder<E>(tag, proxy).build();
     }
 
     @Override
@@ -80,20 +78,15 @@ class ProxiedList<E extends NBTProxy> implements ProxyList<E> {
         }
 
         public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
+            if (lastRet < 0) throw new IllegalStateException();
 
             try {
                 ProxiedList.this.remove(lastRet);
-                if (lastRet < cursor)
-                    cursor--;
+                if (lastRet < cursor) cursor--;
                 lastRet = -1;
             } catch (IndexOutOfBoundsException e) {
                 throw new ConcurrentModificationException();
             }
         }
-
     }
-    
 }
-

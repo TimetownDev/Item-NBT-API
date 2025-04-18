@@ -1,17 +1,16 @@
 package de.tr7zw.changeme.nbtapi;
 
-import org.bukkit.Bukkit;
-import org.bukkit.block.BlockState;
-
 import de.tr7zw.changeme.nbtapi.utils.CheckUtil;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
+import org.bukkit.Bukkit;
+import org.bukkit.block.BlockState;
 
 /**
  * NBT class to access vanilla tags from TileEntities. TileEntities don't
  * support custom tags. Use the NBTInjector for custom tags. Changes will be
  * instantly applied to the Tile, use the merge method to do many things at
  * once.
- * 
+ *
  * @author tr7zw
  *
  */
@@ -42,7 +41,7 @@ public class NBTTileEntity extends NBTCompound {
 
     /**
      * Deprecated: Please use the NBT class
-     * 
+     *
      * @param tile BlockState from any TileEntity
      */
     @Deprecated
@@ -77,8 +76,7 @@ public class NBTTileEntity extends NBTCompound {
         if (readonly && compound != null) {
             return compound;
         }
-        if (!Bukkit.isPrimaryThread())
-            throw new NbtApiException("BlockEntity NBT needs to be accessed sync!");
+        if (!Bukkit.isPrimaryThread()) throw new NbtApiException("BlockEntity NBT needs to be accessed sync!");
         return NBTReflectionUtil.getTileEntityNBTTagCompound(tile);
     }
 
@@ -87,15 +85,14 @@ public class NBTTileEntity extends NBTCompound {
         if (readonly) {
             throw new NbtApiException("Tried setting data in read only mode!");
         }
-        if (!Bukkit.isPrimaryThread())
-            throw new NbtApiException("BlockEntity NBT needs to be accessed sync!");
+        if (!Bukkit.isPrimaryThread()) throw new NbtApiException("BlockEntity NBT needs to be accessed sync!");
         NBTReflectionUtil.setTileEntityNBTTagCompound(tile, compound);
     }
 
     /**
      * Gets the NBTCompound used by spigots PersistentDataAPI. This method is only
      * available for 1.14+!
-     * 
+     *
      * @return NBTCompound containing the data of the PersistentDataAPI
      */
     public NBTCompound getPersistentDataContainer() {
@@ -104,11 +101,11 @@ public class NBTTileEntity extends NBTCompound {
             return getCompound("PublicBukkitValues");
         } else {
             NBTContainer container = new NBTContainer();
-            container.addCompound("PublicBukkitValues").setString("__nbtapi",
-                    "Marker to make the PersistentDataContainer have content");
+            container
+                    .addCompound("PublicBukkitValues")
+                    .setString("__nbtapi", "Marker to make the PersistentDataContainer have content");
             mergeCompound(container);
             return getCompound("PublicBukkitValues");
         }
     }
-
 }

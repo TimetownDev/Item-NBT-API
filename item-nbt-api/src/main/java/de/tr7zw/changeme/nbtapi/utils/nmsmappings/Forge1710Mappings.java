@@ -1,14 +1,13 @@
 package de.tr7zw.changeme.nbtapi.utils.nmsmappings;
 
 import de.tr7zw.changeme.nbtapi.NbtApiException;
-
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Temporary solution to hold Forge1710 mappings.
- * 
+ *
  * @author EverNife
  *
  */
@@ -53,7 +52,7 @@ public class Forge1710Mappings {
         methodMap.put("COMPOUND_SET_BYTE", "func_74774_a");
         methodMap.put("COMPOUND_SET_DOUBLE", "func_74780_a");
         methodMap.put("COMPOUND_SET_BOOLEAN", "func_74757_a");
-        methodMap.put("COMPOUND_MERGE", "merge");// Only present on Crucible
+        methodMap.put("COMPOUND_MERGE", "merge"); // Only present on Crucible
         methodMap.put("COMPOUND_SET", "func_74782_a");
         methodMap.put("COMPOUND_GET", "func_74781_a");
         methodMap.put("COMPOUND_GET_LIST", "func_150295_c");
@@ -95,8 +94,8 @@ public class Forge1710Mappings {
 
         // Crucible
         try {
-            crucible_toString = Class.forName("net.minecraft.nbt.NBTTagCompound")
-                    .getDeclaredMethod("crucible_toString");
+            crucible_toString =
+                    Class.forName("net.minecraft.nbt.NBTTagCompound").getDeclaredMethod("crucible_toString");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,5 +121,4 @@ public class Forge1710Mappings {
                     ex);
         }
     }
-
 }

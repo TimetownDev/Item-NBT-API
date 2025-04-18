@@ -1,5 +1,10 @@
 package de.tr7zw.changeme.nbtapi.wrapper;
 
+import de.tr7zw.changeme.nbtapi.NBTType;
+import de.tr7zw.changeme.nbtapi.NbtApiException;
+import de.tr7zw.changeme.nbtapi.iface.NBTHandler;
+import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
+import de.tr7zw.changeme.nbtapi.wrapper.NBTTarget.Type;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -8,12 +13,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-
-import de.tr7zw.changeme.nbtapi.NBTType;
-import de.tr7zw.changeme.nbtapi.NbtApiException;
-import de.tr7zw.changeme.nbtapi.iface.NBTHandler;
-import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
-import de.tr7zw.changeme.nbtapi.wrapper.NBTTarget.Type;
 
 public class ProxyBuilder<T extends NBTProxy> implements InvocationHandler {
 
@@ -38,7 +37,7 @@ public class ProxyBuilder<T extends NBTProxy> implements InvocationHandler {
 
     @SuppressWarnings("unchecked")
     public T build() {
-        T inst = (T) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[] { target }, this);
+        T inst = (T) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[] {target}, this);
         inst.init();
         return inst;
     }
@@ -65,15 +64,16 @@ public class ProxyBuilder<T extends NBTProxy> implements InvocationHandler {
         }
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private static Function<Arguments, Object> createFunction(NBTProxy proxy, Method method) {
-        if ("toString".equals(method.getName()) && method.getParameterCount() == 0
+        if ("toString".equals(method.getName())
+                && method.getParameterCount() == 0
                 && method.getReturnType() == String.class) {
             return (arguments) -> arguments.nbt.toString();
         }
         if (method.isDefault()) {
-            return (arguments) -> DefaultMethodInvoker.invokeDefault(arguments.target, arguments.proxy, method,
-                    arguments.args);
+            return (arguments) ->
+                    DefaultMethodInvoker.invokeDefault(arguments.target, arguments.proxy, method, arguments.args);
         }
         Type action = getAction(method);
         if (action == Type.SET) {
@@ -95,18 +95,20 @@ public class ProxyBuilder<T extends NBTProxy> implements InvocationHandler {
                         throw new NbtApiException("Tried getting a '" + retType + "' proxy from the field '" + fieldName
                                 + "', but it's not a TagCompound!");
                     }
-                    return new ProxyBuilder<NBTProxy>(arguments.nbt.getOrCreateCompound(fieldName),
-                            (Class<NBTProxy>) retType).build();
+                    return new ProxyBuilder<NBTProxy>(
+                                    arguments.nbt.getOrCreateCompound(fieldName), (Class<NBTProxy>) retType)
+                            .build();
                 };
             }
             if (retType == ProxyList.class) {
-                
-                Class<?> parameterType = (Class<?>) ((ParameterizedType) method.getGenericReturnType())
-                        .getActualTypeArguments()[0];
-                if (parameterType != null && parameterType.isInterface()
+
+                Class<?> parameterType =
+                        (Class<?>) ((ParameterizedType) method.getGenericReturnType()).getActualTypeArguments()[0];
+                if (parameterType != null
+                        && parameterType.isInterface()
                         && NBTProxy.class.isAssignableFrom(parameterType)) {
                     return (arguments) -> {
-                      return new ProxiedList(arguments.nbt.getCompoundList(fieldName), parameterType);  
+                        return new ProxiedList(arguments.nbt.getCompoundList(fieldName), parameterType);
                     };
                 }
             }
@@ -120,15 +122,16 @@ public class ProxyBuilder<T extends NBTProxy> implements InvocationHandler {
             String fieldName = getNBTName(proxy.getCasing(), method);
             return (arguments) -> arguments.nbt.hasTag(fieldName);
         }
-        throw new IllegalArgumentException(
-                "The method '" + method.getName() + "' in '" + method.getDeclaringClass().getName()
-                        + "' can not be handled by the NBT-API. Please check the Wiki for examples!");
+        throw new IllegalArgumentException("The method '" + method.getName() + "' in '"
+                + method.getDeclaringClass().getName()
+                + "' can not be handled by the NBT-API. Please check the Wiki for examples!");
     }
 
     private static Type getAction(Method method) {
         NBTTarget target = method.getAnnotation(NBTTarget.class);
         if (target != null) {
-            if (target.type() == Type.HAS && method.getParameterCount() == 0
+            if (target.type() == Type.HAS
+                    && method.getParameterCount() == 0
                     && method.getReturnType() == boolean.class) {
                 return Type.HAS;
             }
@@ -145,7 +148,8 @@ public class ProxyBuilder<T extends NBTProxy> implements InvocationHandler {
         if (method.getName().startsWith("get") && method.getParameterCount() == 0) {
             return Type.GET;
         }
-        if (method.getName().startsWith("has") && method.getParameterCount() == 0
+        if (method.getName().startsWith("has")
+                && method.getParameterCount() == 0
                 && method.getReturnType() == boolean.class) {
             return Type.HAS;
         }
@@ -203,11 +207,11 @@ public class ProxyBuilder<T extends NBTProxy> implements InvocationHandler {
                         return null;
                     }
                 }
-                throw new IllegalArgumentException("Tried setting an object of type '" + value.getClass().getName()
-                        + "'. This is not a supported NBT value. Please check the Wiki for examples!");
+                throw new IllegalArgumentException(
+                        "Tried setting an object of type '" + value.getClass().getName()
+                                + "'. This is not a supported NBT value. Please check the Wiki for examples!");
             }
         }
         return null;
     }
-
 }

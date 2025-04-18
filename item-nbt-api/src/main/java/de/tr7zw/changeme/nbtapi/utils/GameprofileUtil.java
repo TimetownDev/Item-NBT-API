@@ -1,21 +1,17 @@
 package de.tr7zw.changeme.nbtapi.utils;
 
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import com.mojang.authlib.GameProfile;
-
 import de.tr7zw.changeme.nbtapi.NBTType;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBTCompoundList;
 import de.tr7zw.changeme.nbtapi.iface.ReadableNBT;
 import de.tr7zw.changeme.nbtapi.iface.ReadableNBTList;
+import java.util.UUID;
+import javax.annotation.Nullable;
 
 public class GameprofileUtil {
 
-    @Nullable
-    public static GameProfile readGameProfile(ReadableNBT arg) {
+    @Nullable public static GameProfile readGameProfile(ReadableNBT arg) {
         String string = null;
         UUID uUID = null;
         if (arg.hasTag("Name") && arg.getType("Name") == NBTType.NBTTagString) {
@@ -35,11 +31,16 @@ public class GameprofileUtil {
                         String string3 = compoundTag2.getString("Value");
                         if (compoundTag2.hasTag("Signature")
                                 && compoundTag2.getType("Signature") == NBTType.NBTTagString) {
-                            gameProfile.getProperties().put(string2, new com.mojang.authlib.properties.Property(string2,
-                                    string3, compoundTag2.getString("Signature")));
+                            gameProfile
+                                    .getProperties()
+                                    .put(
+                                            string2,
+                                            new com.mojang.authlib.properties.Property(
+                                                    string2, string3, compoundTag2.getString("Signature")));
                         } else {
-                            gameProfile.getProperties().put(string2,
-                                    new com.mojang.authlib.properties.Property(string2, string3));
+                            gameProfile
+                                    .getProperties()
+                                    .put(string2, new com.mojang.authlib.properties.Property(string2, string3));
                         }
                     }
                 }
@@ -61,7 +62,8 @@ public class GameprofileUtil {
             ReadWriteNBT compoundTag = arg.getOrCreateCompound("Properties");
             for (String string : gameProfile.getProperties().keySet()) {
                 ReadWriteNBTCompoundList list = compoundTag.getCompoundList(string);
-                for (com.mojang.authlib.properties.Property property : gameProfile.getProperties().get(string)) {
+                for (com.mojang.authlib.properties.Property property :
+                        gameProfile.getProperties().get(string)) {
                     ReadWriteNBT tag = list.addCompound();
                     tag.setString("Value", property.getValue());
                     if (property.hasSignature()) {
@@ -72,5 +74,4 @@ public class GameprofileUtil {
         }
         return arg;
     }
-
 }

@@ -1,25 +1,22 @@
 package de.tr7zw.changeme.nbtapi;
 
-import java.util.Set;
-import java.util.function.BiConsumer;
-
-import javax.annotation.Nullable;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteItemNBT;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import de.tr7zw.changeme.nbtapi.iface.ReadableNBT;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ClassWrapper;
 import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ReflectionMethod;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import javax.annotation.Nullable;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * NBT class to access vanilla/custom tags on ItemStacks. This class doesn't
  * autosave to the Itemstack, use getItem to get the changed ItemStack
- * 
+ *
  * @author tr7zw
  *
  */
@@ -36,7 +33,7 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
      * Constructor for NBTItems. The ItemStack will be cloned! Deprecated: Please
      * use the NBT class to work with items. It's up to 400% faster and provides
      * less ways to mess up code.
-     * 
+     *
      * @param item
      */
     @Deprecated
@@ -77,7 +74,7 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
      * Constructor for NBTItems. The ItemStack will be cloned! If directApply is
      * true, all changed will be mapped to the original item. Changes to the NBTItem
      * will overwrite changes done to the original item in that case.
-     * 
+     *
      * @param item
      * @param directApply
      */
@@ -100,11 +97,12 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
         if (closed) {
             throw new NbtApiException("Tried using closed NBT data!");
         }
-        if (isReadOnly() && (cachedCompound != null
-                || ClassWrapper.CRAFT_ITEMSTACK.getClazz().isAssignableFrom(bukkitItem.getClass()))) {
+        if (isReadOnly()
+                && (cachedCompound != null
+                        || ClassWrapper.CRAFT_ITEMSTACK.getClazz().isAssignableFrom(bukkitItem.getClass()))) {
             if (cachedCompound == null) {
-                cachedCompound = NBTReflectionUtil
-                        .getItemRootNBTTagCompound(NBTReflectionUtil.getCraftItemHandle(bukkitItem));
+                cachedCompound =
+                        NBTReflectionUtil.getItemRootNBTTagCompound(NBTReflectionUtil.getCraftItemHandle(bukkitItem));
             }
             return cachedCompound;
         }
@@ -119,8 +117,8 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
 
     private void updateCachedCompound() {
         if (finalizer) {
-            cachedCompound = NBTReflectionUtil
-                    .getItemRootNBTTagCompound(ReflectionMethod.ITEMSTACK_NMSCOPY.run(null, bukkitItem));
+            cachedCompound = NBTReflectionUtil.getItemRootNBTTagCompound(
+                    ReflectionMethod.ITEMSTACK_NMSCOPY.run(null, bukkitItem));
         }
     }
 
@@ -236,7 +234,7 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
 
     /**
      * True, if the item has any tags now known for this item type.
-     * 
+     *
      * @return true when custom tags are present
      */
     @Deprecated
@@ -281,7 +279,7 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
     /**
      * Returns true if the item has NBT data. This needs to be checked before
      * calling methods like remove, otherwise the value might be wrong!
-     * 
+     *
      * @return Does the ItemStack have a NBTCompound.
      */
     public boolean hasNBTData() {
@@ -292,10 +290,10 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
      * Gives save access to the {@link ItemMeta} of the internal {@link ItemStack}.
      * Supported operations while inside this scope: - any get/set method of
      * {@link ItemMeta} - any getter on {@link NBTItem}
-     * 
+     *
      * All changes made to the {@link NBTItem} during this scope will be reverted at
      * the end.
-     * 
+     *
      * @param handler
      */
     public void modifyMeta(BiConsumer<ReadableNBT, ItemMeta> handler) {
@@ -317,10 +315,10 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
      * Gives save access to the {@link ItemMeta} of the internal {@link ItemStack}.
      * Supported operations while inside this scope: - any get/set method of
      * {@link ItemMeta} - any getter on {@link NBTItem}
-     * 
+     *
      * All changes made to the {@link NBTItem} during this scope will be reverted at
      * the end.
-     * 
+     *
      * @param handler
      */
     public <T extends ItemMeta> void modifyMeta(Class<T> type, BiConsumer<ReadableNBT, T> handler) {
@@ -338,7 +336,7 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
     /**
      * Helper method that converts {@link ItemStack} to {@link NBTContainer} with
      * all it's data like Material, Damage, Amount and Tags.
-     * 
+     *
      * @param item
      * @return Standalone {@link NBTContainer} with the Item's data
      */
@@ -350,22 +348,21 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
     /**
      * Helper method to do the inverse of "convertItemtoNBT". Creates an
      * {@link ItemStack} using the {@link NBTCompound}
-     * 
+     *
      * @param comp
      * @return ItemStack using the {@link NBTCompound}'s data
      */
-    @Nullable
-    @Deprecated
+    @Nullable @Deprecated
     public static ItemStack convertNBTtoItem(NBTCompound comp) {
-        return (ItemStack) ReflectionMethod.ITEMSTACK_BUKKITMIRROR.run(null,
-                NBTReflectionUtil.convertNBTCompoundtoNMSItem(comp));
+        return (ItemStack)
+                ReflectionMethod.ITEMSTACK_BUKKITMIRROR.run(null, NBTReflectionUtil.convertNBTCompoundtoNMSItem(comp));
     }
 
     /**
      * Helper method that converts {@link ItemStack}[] to {@link NBTContainer} with
      * all its data like Material, Damage, Amount and Tags. This is a custom
      * implementation and won't work with vanilla code(Shulker content etc).
-     * 
+     *
      * @param items
      * @return Standalone {@link NBTContainer} with the Item's data
      */
@@ -390,15 +387,14 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
      * Helper method to do the inverse of "convertItemArraytoNBT". Creates an
      * {@link ItemStack}[] using the {@link NBTCompound}. This is a custom
      * implementation and won't work with vanilla code (Shulker content, etc.).
-     * 
+     *
      * Will return null for invalid data. Empty slots in the array are filled with
      * AIR Stacks!
-     * 
+     *
      * @param comp
      * @return ItemStack[] using the {@link NBTCompound}'s data
      */
-    @Nullable
-    @Deprecated
+    @Nullable @Deprecated
     public static ItemStack[] convertNBTtoItemArray(NBTCompound comp) {
         if (!comp.hasTag("size")) {
             return null;
@@ -426,5 +422,4 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
             applyNBT(originalSrcStack);
         }
     }
-
 }

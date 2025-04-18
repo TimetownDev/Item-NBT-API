@@ -1,14 +1,13 @@
 package de.tr7zw.changeme.nbtapi;
 
+import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ClassWrapper;
+import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ReflectionMethod;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ClassWrapper;
-import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ReflectionMethod;
-
 /**
  * Integer implementation for NBTLists
- * 
+ *
  * @author tr7zw
  *
  */
@@ -24,8 +23,12 @@ public class NBTIntegerList extends NBTList<Integer> {
             Constructor<?> con = ClassWrapper.NMS_NBTTAGINT.getClazz().getDeclaredConstructor(int.class);
             con.setAccessible(true);
             return con.newInstance(object);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException e) {
+        } catch (InstantiationException
+                | IllegalAccessException
+                | IllegalArgumentException
+                | InvocationTargetException
+                | NoSuchMethodException
+                | SecurityException e) {
             throw new NbtApiException("Error while wrapping the Object " + object + " to it's NMS object!", e);
         }
     }
@@ -41,5 +44,4 @@ public class NBTIntegerList extends NBTList<Integer> {
             throw new NbtApiException(ex);
         }
     }
-
 }

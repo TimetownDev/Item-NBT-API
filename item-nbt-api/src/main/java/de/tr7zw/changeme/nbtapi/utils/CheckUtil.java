@@ -13,5 +13,4 @@ public class CheckUtil {
             throw new NbtApiException(
                     "This Method is only avaliable for the version " + version.name() + " and above!");
     }
-
 }

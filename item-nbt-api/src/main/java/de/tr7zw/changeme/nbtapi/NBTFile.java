@@ -1,15 +1,14 @@
 package de.tr7zw.changeme.nbtapi;
 
+import de.tr7zw.changeme.nbtapi.iface.NBTFileHandle;
+import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ObjectCreator;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import de.tr7zw.changeme.nbtapi.iface.NBTFileHandle;
-import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ObjectCreator;
-
 /**
  * {@link NBTCompound} implementation backed by a {@link File}
- * 
+ *
  * @author tr7zw
  *
  */
@@ -21,7 +20,7 @@ public class NBTFile extends NBTCompound implements NBTFileHandle {
     /**
      * Creates a NBTFile that uses @param file to store its data. If this file
      * exists, the data will be loaded.
-     * 
+     *
      * @param file
      * @throws IOException
      * @deprecated Use NBT.getFileHandle(file)
@@ -43,17 +42,12 @@ public class NBTFile extends NBTCompound implements NBTFileHandle {
 
     /**
      * Saves the data to the file
-     * 
+     *
      * @throws IOException
      */
     @Override
     public void save() throws IOException {
-        try {
-            getWriteLock().lock();
-            saveTo(file, this);
-        } finally {
-            getWriteLock().unlock();
-        }
+        saveTo(file, this);
     }
 
     /**
@@ -86,8 +80,7 @@ public class NBTFile extends NBTCompound implements NBTFileHandle {
      */
     @Deprecated
     public static NBTCompound readFrom(File file) throws IOException {
-        if (!file.exists())
-            return new NBTContainer();
+        if (!file.exists()) return new NBTContainer();
         return new NBTContainer(NBTReflectionUtil.readNBT(Files.newInputStream(file.toPath())));
     }
 
@@ -105,10 +98,8 @@ public class NBTFile extends NBTCompound implements NBTFileHandle {
     public static void saveTo(File file, NBTCompound nbt) throws IOException {
         if (!file.exists()) {
             file.getParentFile().mkdirs();
-            if (!file.createNewFile())
-                throw new IOException("Unable to create file at " + file.getAbsolutePath());
+            if (!file.createNewFile()) throw new IOException("Unable to create file at " + file.getAbsolutePath());
         }
         nbt.writeCompound(Files.newOutputStream(file.toPath()));
     }
-
 }

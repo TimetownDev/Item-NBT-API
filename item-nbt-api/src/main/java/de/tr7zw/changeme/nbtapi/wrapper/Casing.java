@@ -8,7 +8,8 @@ public enum Casing {
             return s.toLowerCase();
         }
         return Character.toLowerCase(s.charAt(0)) + s.substring(1);
-    }), snake_case(s -> {
+    }),
+    snake_case(s -> {
         StringBuilder result = new StringBuilder();
         // Convert the first letter to lowercase
         result.append(Character.toLowerCase(s.charAt(0)));
@@ -23,12 +24,15 @@ public enum Casing {
             }
         }
         return result.toString();
-    }), PascalCase(s -> {
+    }),
+    PascalCase(s -> {
         if (s.length() < 2) {
             return s.toUpperCase();
         }
         return Character.toUpperCase(s.charAt(0)) + s.substring(1);
-    }), lowercase(String::toLowerCase), UPPERCASE(String::toUpperCase);
+    }),
+    lowercase(String::toLowerCase),
+    UPPERCASE(String::toUpperCase);
 
     private UnaryOperator<String> convert;
 

@@ -1,16 +1,15 @@
 package de.tr7zw.changeme.nbtapi;
 
+import de.tr7zw.changeme.nbtapi.utils.UUIDUtil;
+import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ClassWrapper;
+import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ReflectionMethod;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
-import de.tr7zw.changeme.nbtapi.utils.UUIDUtil;
-import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ClassWrapper;
-import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ReflectionMethod;
-
 /**
  * Integer implementation for NBTLists
- * 
+ *
  * @author tr7zw
  *
  */
@@ -29,8 +28,12 @@ public class NBTUUIDList extends NBTList<UUID> {
             Constructor<?> con = ClassWrapper.NMS_NBTTAGINTARRAY.getClazz().getDeclaredConstructor(int[].class);
             con.setAccessible(true);
             return con.newInstance(UUIDUtil.uuidToIntArray(object));
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException e) {
+        } catch (InstantiationException
+                | IllegalAccessException
+                | IllegalArgumentException
+                | InvocationTargetException
+                | NoSuchMethodException
+                | SecurityException e) {
             throw new NbtApiException("Error while wrapping the Object " + object + " to it's NMS object!", e);
         }
     }
@@ -49,5 +52,4 @@ public class NBTUUIDList extends NBTList<UUID> {
             throw new NbtApiException(ex);
         }
     }
-
 }

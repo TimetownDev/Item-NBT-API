@@ -5,14 +5,14 @@ import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 /**
  * A generic {@link RuntimeException} that can be thrown by most methods in the
  * NBTAPI.
- * 
+ *
  * @author tr7zw
  *
  */
 public class NbtApiException extends RuntimeException {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -993309714559452334L;
     /**
@@ -23,7 +23,7 @@ public class NbtApiException extends RuntimeException {
     public static Boolean confirmedBroken = null;
 
     /**
-     * 
+     *
      */
     public NbtApiException() {
         super();
@@ -52,8 +52,7 @@ public class NbtApiException extends RuntimeException {
     }
 
     private static String generateMessage(String message) {
-        if (message == null)
-            return null;
+        if (message == null) return null;
         if (confirmedBroken == null) {
             return "[?][" + MinecraftVersion.getNBTAPIVersion() + "]" + message;
         } else if (confirmedBroken == false) {
@@ -64,5 +63,4 @@ public class NbtApiException extends RuntimeException {
                 + "]There were errors detected during the server self-check! Please, make sure that NBT-API is up to date. Error message: "
                 + message;
     }
-
 }

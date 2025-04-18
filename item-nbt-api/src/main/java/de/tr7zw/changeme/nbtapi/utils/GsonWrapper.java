@@ -1,15 +1,14 @@
 package de.tr7zw.changeme.nbtapi.utils;
 
 import com.google.gson.Gson;
-
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 
 /**
  * Helper class for 1.7 servers without Gson
- * 
+ *
  * Please consider your own Gson/Jackson instance instead of the built in
  * methods.
- * 
+ *
  * @author tr7zw
  *
  */
@@ -19,15 +18,13 @@ public class GsonWrapper {
     /**
      * Private constructor
      */
-    private GsonWrapper() {
-
-    }
+    private GsonWrapper() {}
 
     private static Gson gson = new Gson();
 
     /**
      * Turns Objects into Json Strings
-     * 
+     *
      * @param obj
      * @return Json, representing the Object
      */
@@ -41,7 +38,7 @@ public class GsonWrapper {
 
     /**
      * Creates an Object of the given type using the Json String
-     * 
+     *
      * @param json
      * @param type
      * @return Object that got created, or null if the json is null
@@ -58,5 +55,4 @@ public class GsonWrapper {
             throw new NbtApiException("Error while converting json to " + type.getName(), ex);
         }
     }
-
 }

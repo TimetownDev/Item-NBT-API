@@ -5,7 +5,7 @@ package de.tr7zw.changeme.nbtapi;
  * {@link NBTCompoundList} This Compound implementation is missing the ability
  * for further subCompounds and Lists. This class probably will change in the
  * future
- * 
+ *
  * @author tr7zw
  *
  */
@@ -57,5 +57,4 @@ public class NBTListCompound extends NBTCompound {
     protected void saveCompound() {
         owner.save();
     }
-
 }

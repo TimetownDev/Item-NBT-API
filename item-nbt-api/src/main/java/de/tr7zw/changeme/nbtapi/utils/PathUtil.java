@@ -15,7 +15,8 @@ public final class PathUtil {
         Matcher matcher = pattern.matcher(path);
         int startIndex = 0;
         while (matcher.find(startIndex)) {
-            list.add(new PathSegment(path.substring(startIndex, matcher.end() - 1).replace("\\.", ".")));
+            list.add(new PathSegment(
+                    path.substring(startIndex, matcher.end() - 1).replace("\\.", ".")));
             startIndex = matcher.end();
         }
         list.add(new PathSegment(path.substring(startIndex).replace("\\.", ".")));
@@ -54,7 +55,5 @@ public final class PathUtil {
         public String toString() {
             return "PathSegment [path=" + path + ", index=" + index + "]";
         }
-
     }
-
 }

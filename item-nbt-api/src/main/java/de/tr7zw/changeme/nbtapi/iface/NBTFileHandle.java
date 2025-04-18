@@ -7,7 +7,7 @@ public interface NBTFileHandle extends ReadWriteNBT {
 
     /**
      * Saves the data to the file
-     * 
+     *
      * @throws IOException
      */
     void save() throws IOException;
@@ -16,5 +16,4 @@ public interface NBTFileHandle extends ReadWriteNBT {
      * @return The File used to store the data
      */
     File getFile();
-
 }

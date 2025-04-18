@@ -1,5 +1,8 @@
 package de.tr7zw.changeme.nbtapi;
 
+import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBTList;
+import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
+import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ReflectionMethod;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -9,13 +12,9 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBTList;
-import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
-import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ReflectionMethod;
-
 /**
  * Abstract List implementation for ListCompounds
- * 
+ *
  * @author tr7zw
  *
  * @param <T>
@@ -72,7 +71,6 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
         validateClosed();
         validateWritable();
         try {
-            parent.getWriteLock().lock();
             if (MinecraftVersion.getVersion().getVersionId() >= MinecraftVersion.MC1_14_R1.getVersionId()) {
                 ReflectionMethod.LIST_ADD.run(listObject, size(), asTag(element));
             } else {
@@ -82,8 +80,6 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
             return true;
         } catch (Exception ex) {
             throw new NbtApiException(ex);
-        } finally {
-            parent.getWriteLock().unlock();
         }
     }
 
@@ -92,7 +88,6 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
         validateClosed();
         validateWritable();
         try {
-            parent.getWriteLock().lock();
             if (MinecraftVersion.getVersion().getVersionId() >= MinecraftVersion.MC1_14_R1.getVersionId()) {
                 ReflectionMethod.LIST_ADD.run(listObject, index, asTag(element));
             } else {
@@ -101,8 +96,6 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
             save();
         } catch (Exception ex) {
             throw new NbtApiException(ex);
-        } finally {
-            parent.getWriteLock().unlock();
         }
     }
 
@@ -111,15 +104,12 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
         validateClosed();
         validateWritable();
         try {
-            parent.getWriteLock().lock();
             T prev = get(index);
             ReflectionMethod.LIST_SET.run(listObject, index, asTag(element));
             save();
             return prev;
         } catch (Exception ex) {
             throw new NbtApiException(ex);
-        } finally {
-            parent.getWriteLock().unlock();
         }
     }
 
@@ -128,15 +118,12 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
         validateClosed();
         validateWritable();
         try {
-            parent.getWriteLock().lock();
             T old = get(i);
             ReflectionMethod.LIST_REMOVE_KEY.run(listObject, i);
             save();
             return old;
         } catch (Exception ex) {
             throw new NbtApiException(ex);
-        } finally {
-            parent.getWriteLock().unlock();
         }
     }
 
@@ -144,12 +131,9 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
     public int size() {
         validateClosed();
         try {
-            parent.getReadLock().lock();
             return (int) ReflectionMethod.LIST_SIZE.run(listObject);
         } catch (Exception ex) {
             throw new NbtApiException(ex);
-        } finally {
-            parent.getReadLock().unlock();
         }
     }
 
@@ -176,142 +160,93 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
     @Override
     public boolean contains(Object o) {
         validateClosed();
-        try {
-            parent.getReadLock().lock();
-            for (int i = 0; i < size(); i++) {
-                if (o.equals(get(i)))
-                    return true;
-            }
-            return false;
-        } finally {
-            parent.getReadLock().unlock();
+        for (int i = 0; i < size(); i++) {
+            if (o.equals(get(i))) return true;
         }
+        return false;
     }
 
     @Override
     public int indexOf(Object o) {
         validateClosed();
-        try {
-            parent.getReadLock().lock();
-            for (int i = 0; i < size(); i++) {
-                if (o.equals(get(i)))
-                    return i;
-            }
-            return -1;
-        } finally {
-            parent.getReadLock().unlock();
+        for (int i = 0; i < size(); i++) {
+            if (o.equals(get(i))) return i;
         }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
         validateClosed();
-        try {
-            parent.getWriteLock().lock();
-            int size = size();
-            for (T ele : c) {
-                add(ele);
-            }
-            return size != size();
-        } finally {
-            parent.getWriteLock().unlock();
+        int size = size();
+        for (T ele : c) {
+            add(ele);
         }
+        return size != size();
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
         validateClosed();
-        try {
-            parent.getWriteLock().lock();
-            int size = size();
-            for (T ele : c) {
-                add(index++, ele);
-            }
-            return size != size();
-        } finally {
-            parent.getWriteLock().unlock();
+        int size = size();
+        for (T ele : c) {
+            add(index++, ele);
         }
+        return size != size();
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
         validateClosed();
-        try {
-            parent.getReadLock().lock();
-            for (Object ele : c) {
-                if (!contains(ele))
-                    return false;
-            }
-            return true;
-        } finally {
-            parent.getReadLock().unlock();
+        for (Object ele : c) {
+            if (!contains(ele)) return false;
         }
+        return true;
     }
 
     @Override
     public int lastIndexOf(Object o) {
         validateClosed();
-        try {
-            parent.getReadLock().lock();
-            int index = -1;
-            for (int i = 0; i < size(); i++) {
-                if (o.equals(get(i)))
-                    index = i;
-            }
-            return index;
-        } finally {
-            parent.getReadLock().unlock();
+        int index = -1;
+        for (int i = 0; i < size(); i++) {
+            if (o.equals(get(i))) index = i;
         }
+        return index;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
         validateClosed();
-        try {
-            parent.getWriteLock().lock();
-            int size = size();
-            for (Object obj : c) {
-                remove(obj);
-            }
-            return size != size();
-        } finally {
-            parent.getWriteLock().unlock();
+        int size = size();
+        for (Object obj : c) {
+            remove(obj);
         }
+        return size != size();
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
         validateClosed();
-        try {
-            parent.getWriteLock().lock();
-            int size = size();
-            for (Object obj : c) {
-                for (int i = 0; i < size(); i++) {
-                    if (!obj.equals(get(i))) {
-                        remove(i--);
-                    }
+        int size = size();
+        for (Object obj : c) {
+            for (int i = 0; i < size(); i++) {
+                if (!obj.equals(get(i))) {
+                    remove(i--);
                 }
             }
-            return size != size();
-        } finally {
-            parent.getWriteLock().unlock();
         }
+        return size != size();
     }
 
     @Override
     public boolean remove(Object o) {
         validateClosed();
-        try {
-            parent.getWriteLock().lock();
-            int size = size();
-            int id = indexOf(o);
-            if (id != -1) {
-                remove(id);
-            }
-            return size != size();
-        } finally {
-            parent.getWriteLock().unlock();
+        int size = size();
+        int id = indexOf(o);
+        if (id != -1) {
+            remove(id);
         }
+        return size != size();
     }
 
     @Override
@@ -327,8 +262,7 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
 
             @Override
             public T next() {
-                if (!hasNext())
-                    throw new NoSuchElementException();
+                if (!hasNext()) throw new NoSuchElementException();
                 return get(++index);
             }
 
@@ -369,8 +303,7 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
 
             @Override
             public T next() {
-                if (!hasNext())
-                    throw new NoSuchElementException();
+                if (!hasNext()) throw new NoSuchElementException();
                 return get(++index);
             }
 
@@ -381,8 +314,7 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
 
             @Override
             public T previous() {
-                if (!hasPrevious())
-                    throw new NoSuchElementException("Id: " + (index - 1));
+                if (!hasPrevious()) throw new NoSuchElementException("Id: " + (index - 1));
                 return get(index--);
             }
 
@@ -407,52 +339,35 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
     @Override
     public Object[] toArray() {
         validateClosed();
-        try {
-            parent.getReadLock().lock();
-            Object[] ar = new Object[size()];
-            for (int i = 0; i < size(); i++)
-                ar[i] = get(i);
-            return ar;
-        } finally {
-            parent.getReadLock().unlock();
-        }
+        Object[] ar = new Object[size()];
+        for (int i = 0; i < size(); i++) ar[i] = get(i);
+        return ar;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <E> E[] toArray(E[] a) {
         validateClosed();
-        try {
-            parent.getReadLock().lock();
-            E[] ar = Arrays.copyOf(a, size());
-            Arrays.fill(ar, null);
-            Class<?> arrayclass = a.getClass().getComponentType();
-            for (int i = 0; i < size(); i++) {
-                T obj = get(i);
-                if (arrayclass.isInstance(obj)) {
-                    ar[i] = (E) get(i);
-                } else {
-                    throw new ArrayStoreException("The array does not match the objects stored in the List.");
-                }
+        E[] ar = Arrays.copyOf(a, size());
+        Arrays.fill(ar, null);
+        Class<?> arrayclass = a.getClass().getComponentType();
+        for (int i = 0; i < size(); i++) {
+            T obj = get(i);
+            if (arrayclass.isInstance(obj)) {
+                ar[i] = (E) get(i);
+            } else {
+                throw new ArrayStoreException("The array does not match the objects stored in the List.");
             }
-            return ar;
-        } finally {
-            parent.getReadLock().unlock();
         }
+        return ar;
     }
 
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
         validateClosed();
-        try {
-            parent.getReadLock().lock();
-            ArrayList<T> list = new ArrayList<>();
-            for (int i = fromIndex; i < toIndex; i++)
-                list.add(get(i));
-            return list;
-        } finally {
-            parent.getReadLock().unlock();
-        }
+        ArrayList<T> list = new ArrayList<>();
+        for (int i = fromIndex; i < toIndex; i++) list.add(get(i));
+        return list;
     }
 
     @Override
@@ -463,12 +378,6 @@ public abstract class NBTList<T> implements List<T>, ReadWriteNBTList<T> {
     @Override
     public String toString() {
         validateClosed();
-        try {
-            parent.getReadLock().lock();
-            return listObject.toString();
-        } finally {
-            parent.getReadLock().unlock();
-        }
+        return listObject.toString();
     }
-
 }

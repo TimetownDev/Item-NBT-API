@@ -1,15 +1,14 @@
 package de.tr7zw.changeme.nbtapi;
 
-import java.io.InputStream;
-
 import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ClassWrapper;
 import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ObjectCreator;
 import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ReflectionMethod;
+import java.io.InputStream;
 
 /**
  * A Standalone {@link NBTCompound} implementation. All data is just kept inside
  * this Object.
- * 
+ *
  * @author tr7zw
  *
  */
@@ -32,7 +31,7 @@ public class NBTContainer extends NBTCompound {
 
     /**
      * Takes in any NMS Compound to wrap it
-     * 
+     *
      * @param nbt
      * @deprecated Use NBT.wrapNMSTag
      */
@@ -50,7 +49,7 @@ public class NBTContainer extends NBTCompound {
 
     /**
      * Reads in a NBT InputStream
-     * 
+     *
      * @param inputsteam
      * @deprecated Use NBT.readNBT
      */
@@ -63,7 +62,7 @@ public class NBTContainer extends NBTCompound {
     /**
      * Parses in a NBT String to a standalone {@link NBTCompound}. Can throw a
      * {@link NbtApiException} in case something goes wrong.
-     * 
+     *
      * @param nbtString
      * @deprecated Use NBT.parseNBT
      */
@@ -99,7 +98,7 @@ public class NBTContainer extends NBTCompound {
     protected boolean isClosed() {
         return closed;
     }
-    
+
     protected boolean isReadOnly() {
         return readOnly;
     }
@@ -108,5 +107,4 @@ public class NBTContainer extends NBTCompound {
         this.readOnly = true;
         return this;
     }
-
 }
