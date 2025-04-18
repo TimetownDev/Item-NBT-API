@@ -598,6 +598,11 @@ public enum ReflectionMethod {
             new Class[] {},
             MinecraftVersion.MC1_20_R4,
             new Since(MinecraftVersion.MC1_20_R4, "copyTag()")),
+    NMSCUSTOMDATA_GET_UNSAFE(
+            ClassWrapper.NMS_CUSTOMDATA,
+            new Class[] {},
+            MinecraftVersion.MC1_20_R4,
+            new Since(MinecraftVersion.MC1_20_R4, "getUnsafe()")),
     NMSITEM_SET(
             ClassWrapper.NMS_ITEMSTACK,
             new Class[] {ClassWrapper.NMS_DATACOMPONENTTYPE.getClazz(), Object.class},

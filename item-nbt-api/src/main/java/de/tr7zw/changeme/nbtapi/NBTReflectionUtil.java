@@ -177,7 +177,7 @@ public class NBTReflectionUtil {
                 if (customData == null) {
                     return null;
                 }
-                return ReflectionMethod.NMSCUSTOMDATA_GETCOPY.run(customData);
+                return ReflectionMethod.NMSCUSTOMDATA_GET_UNSAFE.run(customData);
             } else {
                 Object answer = ReflectionMethod.NMSITEM_GETTAG.run(nmsitem);
                 return answer;
@@ -196,7 +196,7 @@ public class NBTReflectionUtil {
     public static void setItemStackCompound(Object nmsItem, Object compound) {
         if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_20_R4)) {
             if (compound == null) {
-                ReflectionMethod.NMSITEM_SET.run(nmsItem, new Object[] {type_custom_data, null});
+                ReflectionMethod.NMSITEM_SET.run(nmsItem, type_custom_data, null);
             } else {
                 ReflectionMethod.NMSITEM_SET.run(
                         nmsItem, type_custom_data, ObjectCreator.NMS_CUSTOMDATA.getInstance(compound));
