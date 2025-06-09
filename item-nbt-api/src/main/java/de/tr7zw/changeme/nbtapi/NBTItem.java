@@ -101,8 +101,8 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
                 && (cachedCompound != null
                         || ClassWrapper.CRAFT_ITEMSTACK.getClazz().isAssignableFrom(bukkitItem.getClass()))) {
             if (cachedCompound == null) {
-                cachedCompound =
-                        NBTReflectionUtil.getItemRootNBTTagCompound(NBTReflectionUtil.getCraftItemHandle(bukkitItem));
+                cachedCompound = NBTReflectionUtil.getItemRootNBTTagCompound(
+                        NBTReflectionUtil.getCraftItemHandle(bukkitItem), false);
             }
             return cachedCompound;
         }
@@ -112,17 +112,19 @@ public class NBTItem extends NBTCompound implements ReadWriteItemNBT {
             }
             return cachedCompound;
         }
-        return NBTReflectionUtil.getItemRootNBTTagCompound(ReflectionMethod.ITEMSTACK_NMSCOPY.run(null, bukkitItem));
+
+        return NBTReflectionUtil.getItemRootNBTTagCompound(
+                ReflectionMethod.ITEMSTACK_NMSCOPY.run(null, bukkitItem), true);
     }
 
     private void updateCachedCompound() {
         if (finalizer) {
             if (ClassWrapper.CRAFT_ITEMSTACK.getClazz().isAssignableFrom(bukkitItem.getClass())) {
                 Object nmsStack = NBTReflectionUtil.getCraftItemHandle(bukkitItem);
-                cachedCompound = NBTReflectionUtil.getItemRootNBTTagCompound(nmsStack);
+                cachedCompound = NBTReflectionUtil.getItemRootNBTTagCompound(nmsStack, !isReadOnly());
             } else {
                 cachedCompound = NBTReflectionUtil.getItemRootNBTTagCompound(
-                        ReflectionMethod.ITEMSTACK_NMSCOPY.run(null, bukkitItem));
+                        ReflectionMethod.ITEMSTACK_NMSCOPY.run(null, bukkitItem), !isReadOnly());
             }
         }
     }

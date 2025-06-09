@@ -168,16 +168,20 @@ public class NBTReflectionUtil {
      * new empty tag.
      *
      * @param nmsitem
+     * @param clone
      * @return NMS Compound
      */
-    public static Object getItemRootNBTTagCompound(Object nmsitem) {
+    public static Object getItemRootNBTTagCompound(Object nmsitem, boolean clone) {
         try {
             if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_20_R4)) {
                 Object customData = ReflectionMethod.NMSDATACOMPONENTHOLDER_GET.run(nmsitem, type_custom_data);
                 if (customData == null) {
                     return null;
                 }
-                return ReflectionMethod.NMSCUSTOMDATA_GET_UNSAFE.run(customData);
+
+                if (!clone) return ReflectionMethod.NMSCUSTOMDATA_GET_UNSAFE.run(customData);
+
+                return ReflectionMethod.NMSCUSTOMDATA_GETCOPY.run(customData);
             } else {
                 Object answer = ReflectionMethod.NMSITEM_GETTAG.run(nmsitem);
                 return answer;
