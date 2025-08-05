@@ -1,8 +1,5 @@
 package de.tr7zw.nbtapi.plugin.tests.compounds;
 
-import java.util.Arrays;
-import java.util.UUID;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NBTType;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
@@ -10,6 +7,8 @@ import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBTCompoundList;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBTList;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import java.util.Arrays;
+import java.util.UUID;
 
 public class ListTest implements Test {
 
@@ -51,11 +50,14 @@ public class ListTest implements Test {
             lcomp = taglist.get(0);
             ReadWriteNBT sublist = lcomp.getCompound("listsubkey");
             if (lcomp.getKeys().size() != 4) {
-                throw new NbtApiException("Wrong key amount in Taglist (" + lcomp.getKeys().size() + ")!");
+                throw new NbtApiException(
+                        "Wrong key amount in Taglist (" + lcomp.getKeys().size() + ")!");
             } else if (sublist == null) {
                 throw new NbtApiException("The sublist is null! The Item-NBT-API may not work!");
-            } else if (!(lcomp.getDouble("double1") == 0.3333 && lcomp.getInteger("int1") == 42
-                    && lcomp.getString("test2").equals("test2") && !lcomp.hasTag("test1"))) {
+            } else if (!(lcomp.getDouble("double1") == 0.3333
+                    && lcomp.getInteger("int1") == 42
+                    && lcomp.getString("test2").equals("test2")
+                    && !lcomp.hasTag("test1"))) {
                 throw new NbtApiException("One key in the Taglist changed! The Item-NBT-API may not work!");
             } else if (!"String".equals(sublist.getString("deep"))) {
                 throw new NbtApiException(
@@ -71,7 +73,8 @@ public class ListTest implements Test {
         }
 
         if (comp.getListType("complist") != NBTType.NBTTagCompound) {
-            throw new NbtApiException("complist had the wrong type(" + comp.getListType("complist") + ")! The Item-NBT-API may not work!");
+            throw new NbtApiException("complist had the wrong type(" + comp.getListType("complist")
+                    + ")! The Item-NBT-API may not work!");
         }
 
         // Integer
@@ -133,10 +136,11 @@ public class ListTest implements Test {
 
         // int[]
         ReadWriteNBTList<int[]> intArrayList = comp.getIntArrayList("intatest");
-        intArrayList.add(new int[] { 1, 2, 3 });
-        intArrayList.add(new int[] { 4, 2, 0 });
-        if (intArrayList.size() == 2 && Arrays.equals(new int[] { 1, 2, 3 }, intArrayList.get(0))
-                && Arrays.equals(new int[] { 4, 2, 0 }, intArrayList.get(1))) {
+        intArrayList.add(new int[] {1, 2, 3});
+        intArrayList.add(new int[] {4, 2, 0});
+        if (intArrayList.size() == 2
+                && Arrays.equals(new int[] {1, 2, 3}, intArrayList.get(0))
+                && Arrays.equals(new int[] {4, 2, 0}, intArrayList.get(1))) {
             // ok
         } else {
             throw new NbtApiException("IntArrayList is not correct! " + intArrayList);
@@ -150,7 +154,8 @@ public class ListTest implements Test {
         ReadWriteNBTList<UUID> uuidList = comp.getUUIDList("uuidtest");
         uuidList.add(UUID.fromString("fce0323d-7f50-4317-9720-5f6b14cf78ea"));
         uuidList.add(UUID.fromString("853c80ef-3c37-49fd-aa49-938b674adae6"));
-        if (uuidList.size() == 2 && UUID.fromString("fce0323d-7f50-4317-9720-5f6b14cf78ea").equals(uuidList.get(0))
+        if (uuidList.size() == 2
+                && UUID.fromString("fce0323d-7f50-4317-9720-5f6b14cf78ea").equals(uuidList.get(0))
                 && UUID.fromString("853c80ef-3c37-49fd-aa49-938b674adae6").equals(uuidList.get(1))) {
             // ok
         } else {
@@ -160,7 +165,5 @@ public class ListTest implements Test {
         if (comp.getListType("uuidtest") != NBTType.NBTTagIntArray) {
             throw new NbtApiException("uuidtest had the wrong type! The Item-NBT-API may not work!");
         }
-
     }
-
 }

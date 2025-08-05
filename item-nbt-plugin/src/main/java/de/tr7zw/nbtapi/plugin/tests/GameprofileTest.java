@@ -1,12 +1,10 @@
 package de.tr7zw.nbtapi.plugin.tests;
 
-import java.util.UUID;
-
 import com.mojang.authlib.GameProfile;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
+import java.util.UUID;
 
 public class GameprofileTest implements Test {
 
@@ -21,5 +19,4 @@ public class GameprofileTest implements Test {
             throw new NbtApiException("Error when converting a GameProfile from/to NBT!");
         }
     }
-
 }

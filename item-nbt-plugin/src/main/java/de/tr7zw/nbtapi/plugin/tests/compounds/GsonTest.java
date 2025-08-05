@@ -1,12 +1,11 @@
 package de.tr7zw.nbtapi.plugin.tests.compounds;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class GsonTest implements Test {
 
@@ -91,5 +90,4 @@ public class GsonTest implements Test {
             this.testBoolean = testBoolean;
         }
     }
-
 }

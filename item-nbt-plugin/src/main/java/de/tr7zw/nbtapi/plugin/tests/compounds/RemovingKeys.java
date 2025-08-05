@@ -25,8 +25,8 @@ public class RemovingKeys implements Test {
     private static final byte BYTE_TEST_VALUE = 7;
     private static final float FLOAT_TEST_VALUE = 13.37f;
     private static final long LONG_TEST_VALUE = (long) Integer.MAX_VALUE + 42L;
-    private static final int[] INTARRAY_TEST_VALUE = new int[] { 1337, 42, 69 };
-    private static final byte[] BYTEARRAY_TEST_VALUE = new byte[] { 8, 7, 3, 2 };
+    private static final int[] INTARRAY_TEST_VALUE = new int[] {1337, 42, 69};
+    private static final byte[] BYTEARRAY_TEST_VALUE = new byte[] {8, 7, 3, 2};
 
     @Override
     public void test() throws Exception {
@@ -61,7 +61,5 @@ public class RemovingKeys implements Test {
         if (comp.getKeys().size() != 0) {
             throw new NbtApiException("Keys where not removed using the setter with null!");
         }
-
     }
-
 }

@@ -1,21 +1,19 @@
 package de.tr7zw.nbtapi.plugin.tests.blocks;
 
+import de.tr7zw.changeme.nbtapi.NBTBlock;
+import de.tr7zw.changeme.nbtapi.NbtApiException;
+import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
+import de.tr7zw.nbtapi.plugin.tests.Test;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import de.tr7zw.changeme.nbtapi.NBTBlock;
-import de.tr7zw.changeme.nbtapi.NbtApiException;
-import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
-import de.tr7zw.nbtapi.plugin.tests.Test;
-
 public class BlockNBTTest implements Test {
 
     @Override
     public void test() throws Exception {
-        if (MinecraftVersion.getVersion().getVersionId() < MinecraftVersion.MC1_16_R3.getVersionId())
-            return;
+        if (MinecraftVersion.getVersion().getVersionId() < MinecraftVersion.MC1_16_R3.getVersionId()) return;
         if (!Bukkit.getWorlds().isEmpty()) {
             World world = Bukkit.getWorlds().get(0);
             try {
@@ -37,5 +35,4 @@ public class BlockNBTTest implements Test {
             }
         }
     }
-
 }

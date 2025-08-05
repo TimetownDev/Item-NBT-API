@@ -1,13 +1,12 @@
 package de.tr7zw.nbtapi.plugin.tests;
 
-import java.io.File;
-import java.nio.file.Files;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.iface.NBTFileHandle;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import de.tr7zw.nbtapi.plugin.NBTAPI;
+import java.io.File;
+import java.nio.file.Files;
 
 public class NBTFileTest implements Test {
 
@@ -59,5 +58,4 @@ public class NBTFileTest implements Test {
         }
         Files.deleteIfExists(fileLoaded.getFile().toPath());
     }
-
 }

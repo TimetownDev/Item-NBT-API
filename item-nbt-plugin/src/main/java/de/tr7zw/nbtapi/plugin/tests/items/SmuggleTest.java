@@ -1,15 +1,13 @@
 package de.tr7zw.nbtapi.plugin.tests.items;
 
-import java.util.concurrent.atomic.AtomicReference;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBTList;
 import de.tr7zw.changeme.nbtapi.iface.ReadableNBTList;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import java.util.concurrent.atomic.AtomicReference;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class SmuggleTest implements Test {
 
@@ -57,5 +55,4 @@ public class SmuggleTest implements Test {
             throw error;
         }
     }
-
 }

@@ -1,14 +1,5 @@
 package de.tr7zw.nbtapi.plugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.logging.Level;
-
-import org.bukkit.plugin.java.JavaPlugin;
-
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import de.tr7zw.changeme.nbtapi.utils.VersionChecker;
@@ -51,6 +42,13 @@ import de.tr7zw.nbtapi.plugin.tests.items.SmuggleTest;
 import de.tr7zw.nbtapi.plugin.tests.proxy.SimpleProxyTest;
 import de.tr7zw.nbtapi.plugin.tests.tiles.TileTest;
 import de.tr7zw.nbtapi.plugin.tests.tiles.TilesCustomNBTPersistentTest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class NBTAPI extends JavaPlugin {
 
@@ -92,19 +90,18 @@ public class NBTAPI extends JavaPlugin {
         apiTests.add(new InterfaceTest());
         apiTests.add(new ResolveTest());
         if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_8_R3)) // 1.7.10 list support is not complete at all
-            apiTests.add(new ListTest());
+        apiTests.add(new ListTest());
         apiTests.add(new SubCompoundsTest());
         apiTests.add(new ModernSubCompoundsTest());
         if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_8_R3)) // 1.7.10 not a thing
-            apiTests.add(new MergeTest());
+        apiTests.add(new MergeTest());
         apiTests.add(new ForEachTest());
         apiTests.add(new StreamTest());
         apiTests.add(new EqualsTest());
         apiTests.add(new CompoundDifferenceTest());
         if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_8_R3)) // 1.7.10 list support is not complete at all
-            apiTests.add(new IteratorTest());
-        if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_16_R1))
-            apiTests.add(new LongArrayTest());
+        apiTests.add(new IteratorTest());
+        if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_16_R1)) apiTests.add(new LongArrayTest());
 
         // Items
         if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_8_R3)) { // 1.7.10 not a thing
@@ -114,7 +111,8 @@ public class NBTAPI extends JavaPlugin {
         if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_20_R4)) {
             apiTests.add(new LegacyItemTest());
         }
-        if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_20_R4) && !MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_21_R4)) {
+        if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_20_R4)
+                && !MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_21_R4)) {
             apiTests.add(new ItemJsonTest());
         }
         apiTests.add(new ComponentsTest());
@@ -147,9 +145,7 @@ public class NBTAPI extends JavaPlugin {
         // Files
         apiTests.add(new NBTFileTest());
 
-        if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_8_R3))
-            apiTests.add(new GameprofileTest());
-
+        if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_8_R3)) apiTests.add(new GameprofileTest());
     }
 
     @Override
@@ -168,28 +164,24 @@ public class NBTAPI extends JavaPlugin {
         boolean classUnlinked = false;
         for (ClassWrapper c : ClassWrapper.values()) {
             if (c.isEnabled() && c.getClazz() == null) {
-                if (!classUnlinked)
-                    getLogger().info("Classes:");
+                if (!classUnlinked) getLogger().info("Classes:");
                 getLogger().warning(c.name() + " did not find it's class!");
                 compatible = false;
                 classUnlinked = true;
             }
         }
-        if (!classUnlinked)
-            getLogger().info("All Classes were able to link!");
+        if (!classUnlinked) getLogger().info("All Classes were able to link!");
 
         boolean methodUnlinked = false;
         for (ReflectionMethod method : ReflectionMethod.values()) {
             if (method.isCompatible() && !method.isLoaded()) {
-                if (!methodUnlinked)
-                    getLogger().info("Methods:");
+                if (!methodUnlinked) getLogger().info("Methods:");
                 getLogger().warning(method.name() + " did not find the method!");
                 compatible = false;
                 methodUnlinked = true;
             }
         }
-        if (!methodUnlinked)
-            getLogger().info("All Methods were able to link!");
+        if (!methodUnlinked) getLogger().info("All Methods were able to link!");
         getLogger().info("Running NBT reflection test...");
 
         Map<de.tr7zw.nbtapi.plugin.tests.Test, Exception> results = new HashMap<>();
@@ -199,11 +191,16 @@ public class NBTAPI extends JavaPlugin {
                 results.put(test, null);
             } catch (Exception ex) {
                 results.put(test, ex);
-                getLogger().log(Level.WARNING, "Error during '" + test.getClass().getSimpleName() + "' test!", ex);
-            } catch (NoSuchFieldError th) { // NOSONAR
-                getLogger().log(Level.SEVERE, "Servere error during '" + test.getClass().getSimpleName() + "' test!");
-                getLogger().warning(
-                        "WARNING! This version of Item-NBT-API seems to be broken with your Spigot version! Canceled the other tests!");
+                getLogger()
+                        .log(Level.WARNING, "Error during '" + test.getClass().getSimpleName() + "' test!", ex);
+            } catch (Throwable th) { // NOSONAR
+                getLogger()
+                        .log(
+                                Level.SEVERE,
+                                "Servere error during '" + test.getClass().getSimpleName() + "' test!");
+                getLogger()
+                        .warning(
+                                "WARNING! This version of Item-NBT-API seems to be broken with your Spigot version! Canceled the other tests!");
                 throw th;
             }
         }
@@ -211,24 +208,28 @@ public class NBTAPI extends JavaPlugin {
         for (Entry<de.tr7zw.nbtapi.plugin.tests.Test, Exception> entry : results.entrySet()) {
             if (entry.getValue() != null) {
                 compatible = false;
-                getLogger().info(entry.getKey().getClass().getSimpleName() + ": " + entry.getValue().getMessage());
+                getLogger()
+                        .info(entry.getKey().getClass().getSimpleName() + ": "
+                                + entry.getValue().getMessage());
             }
         }
 
-        String checkMessage = "Plugins that don't check properly may throw Exeptions, crash or have unexpected behaviors!";
+        String checkMessage =
+                "Plugins that don't check properly may throw Exeptions, crash or have unexpected behaviors!";
         if (compatible) {
             NbtApiException.confirmedBroken = false;
             getLogger().info("Success! This version of NBT-API is compatible with your server.");
         } else {
             NbtApiException.confirmedBroken = true;
-            getLogger().warning(
-                    "WARNING! This version of NBT-API seems to be broken with your Spigot version! " + checkMessage);
+            getLogger()
+                    .warning("WARNING! This version of NBT-API seems to be broken with your Spigot version! "
+                            + checkMessage);
             if (MinecraftVersion.getVersion() == MinecraftVersion.MC1_7_R4) {
-                getLogger().warning(
-                        "1.7.10 is only partally supported! Some thing will not work/are not yet avaliable in 1.7.10!");
+                getLogger()
+                        .warning(
+                                "1.7.10 is only partally supported! Some thing will not work/are not yet avaliable in 1.7.10!");
             }
         }
-
     }
 
     /**
@@ -237,5 +238,4 @@ public class NBTAPI extends JavaPlugin {
     public boolean isCompatible() {
         return compatible;
     }
-
 }

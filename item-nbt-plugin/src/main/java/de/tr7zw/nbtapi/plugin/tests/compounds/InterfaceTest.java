@@ -17,5 +17,4 @@ public class InterfaceTest implements Test {
             throw new NbtApiException("Wasn't able to check the key! The Item-NBT-API may not work!");
         }
     }
-
 }

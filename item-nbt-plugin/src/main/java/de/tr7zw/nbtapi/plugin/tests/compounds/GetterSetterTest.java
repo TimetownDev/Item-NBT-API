@@ -26,8 +26,8 @@ public class GetterSetterTest implements Test {
     private static final byte BYTE_TEST_VALUE = 7;
     private static final float FLOAT_TEST_VALUE = 13.37f;
     private static final long LONG_TEST_VALUE = (long) Integer.MAX_VALUE + 42L;
-    private static final int[] INTARRAY_TEST_VALUE = new int[] { 1337, 42, 69 };
-    private static final byte[] BYTEARRAY_TEST_VALUE = new byte[] { 8, 7, 3, 2 };
+    private static final int[] INTARRAY_TEST_VALUE = new int[] {1337, 42, 69};
+    private static final byte[] BYTEARRAY_TEST_VALUE = new byte[] {8, 7, 3, 2};
 
     @Override
     public void test() throws Exception {
@@ -52,13 +52,14 @@ public class GetterSetterTest implements Test {
         if (!(STRING_TEST_VALUE).equals(comp.getString(STRING_TEST_KEY))
                 || comp.getInteger(INT_TEST_KEY) != INT_TEST_VALUE
                 || comp.getDouble(DOUBLE_TEST_KEY) != DOUBLE_TEST_VALUE
-                || comp.getByte(BYTE_TEST_KEY) != BYTE_TEST_VALUE || comp.getShort(SHORT_TEST_KEY) != SHORT_TEST_VALUE
-                || comp.getFloat(FLOAT_TEST_KEY) != FLOAT_TEST_VALUE || comp.getLong(LONG_TEST_KEY) != LONG_TEST_VALUE
+                || comp.getByte(BYTE_TEST_KEY) != BYTE_TEST_VALUE
+                || comp.getShort(SHORT_TEST_KEY) != SHORT_TEST_VALUE
+                || comp.getFloat(FLOAT_TEST_KEY) != FLOAT_TEST_VALUE
+                || comp.getLong(LONG_TEST_KEY) != LONG_TEST_VALUE
                 || (intArray != null && intArray.length != (INTARRAY_TEST_VALUE).length)
                 || (byteArray != null && byteArray.length != (BYTEARRAY_TEST_VALUE).length)
                 || !comp.getBoolean(BOOLEAN_TEST_KEY).equals(BOOLEAN_TEST_VALUE)) {
             throw new NbtApiException("One key does not equal the original value! The Item-NBT-API may not work!");
         }
     }
-
 }

@@ -190,6 +190,48 @@ public enum ClassWrapper {
             null,
             "net.minecraft.nbt",
             "net.minecraft.nbt.NbtOps"),
+    NMS_PROBLEM_REPORTER(
+            PackageWrapper.NMS,
+            "ProblemReporter",
+            MinecraftVersion.MC1_21_R5,
+            null,
+            "net.minecraft.util",
+            "net.minecraft.util.ProblemReporter"),
+    NMS_TAG_VALUE_INPUT(
+            PackageWrapper.NMS,
+            "TagValueInput",
+            MinecraftVersion.MC1_21_R5,
+            null,
+            "net.minecraft.world.level.storage",
+            "net.minecraft.world.level.storage.TagValueInput"),
+    NMS_VALUE_INPUT(
+            PackageWrapper.NMS,
+            "ValueInput",
+            MinecraftVersion.MC1_21_R5,
+            null,
+            "net.minecraft.world.level.storage",
+            "net.minecraft.world.level.storage.ValueInput"),
+    NMS_TAG_VALUE_OUTPUT(
+            PackageWrapper.NMS,
+            "TagValueOutput",
+            MinecraftVersion.MC1_21_R5,
+            null,
+            "net.minecraft.world.level.storage",
+            "net.minecraft.world.level.storage.TagValueOutput"),
+    NMS_VALUE_OUTPUT(
+            PackageWrapper.NMS,
+            "ValueOutput",
+            MinecraftVersion.MC1_21_R5,
+            null,
+            "net.minecraft.world.level.storage",
+            "net.minecraft.world.level.storage.ValueOutput"),
+    NMS_DYNAMICOPS(
+            PackageWrapper.NONE,
+            "DynamicOps",
+            MinecraftVersion.MC1_21_R5,
+            null,
+            "com.mojang.serialization",
+            "com.mojang.serialization.DynamicOps"),
     GAMEPROFILE(PackageWrapper.NONE, "com.mojang.authlib.GameProfile", MinecraftVersion.MC1_8_R3, null);
 
     private Class<?> clazz;

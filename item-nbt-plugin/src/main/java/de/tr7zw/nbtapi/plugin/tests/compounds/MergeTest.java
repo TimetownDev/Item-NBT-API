@@ -18,5 +18,4 @@ public class MergeTest implements Test {
             throw new NbtApiException("Wasn't able to merge Compounds!");
         }
     }
-
 }

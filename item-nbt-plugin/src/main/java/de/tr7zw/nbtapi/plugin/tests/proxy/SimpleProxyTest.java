@@ -1,17 +1,16 @@
 package de.tr7zw.nbtapi.plugin.tests.proxy;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.handler.NBTHandlers;
 import de.tr7zw.changeme.nbtapi.wrapper.NBTProxy;
 import de.tr7zw.changeme.nbtapi.wrapper.NBTTarget;
-import de.tr7zw.changeme.nbtapi.wrapper.ProxyList;
 import de.tr7zw.changeme.nbtapi.wrapper.NBTTarget.Type;
+import de.tr7zw.changeme.nbtapi.wrapper.ProxyList;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class SimpleProxyTest implements Test {
 
@@ -96,7 +95,6 @@ public class SimpleProxyTest implements Test {
         public void setItem(ItemStack item);
 
         public ProxyList<Statistic> getStatistics();
-
     }
 
     public interface Statistic extends NBTProxy {
@@ -107,7 +105,5 @@ public class SimpleProxyTest implements Test {
         public default void addPoint() {
             setPoints(getPoints() + 1);
         }
-
     }
-
 }

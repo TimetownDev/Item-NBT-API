@@ -1,15 +1,14 @@
 package de.tr7zw.nbtapi.plugin.tests.tiles;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NBTTileEntity;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 
 public class TileTest implements Test {
 
@@ -21,7 +20,9 @@ public class TileTest implements Test {
         if (!Bukkit.getWorlds().isEmpty()) {
             World world = Bukkit.getWorlds().get(0);
             try {
-                Block block = world.getBlockAt(world.getSpawnLocation().getBlockX(), 254,
+                Block block = world.getBlockAt(
+                        world.getSpawnLocation().getBlockX(),
+                        254,
                         world.getSpawnLocation().getBlockZ());
                 if (world.isChunkLoaded(block.getX() >> 4, block.getZ() >> 4) && block.getType() == Material.AIR) {
                     block.setType(Material.CHEST);
@@ -41,7 +42,8 @@ public class TileTest implements Test {
                         }
                     }
                     tile.setString("Lock", "test");
-                    if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_8_R3) && !tile.hasTag("Lock")
+                    if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_8_R3)
+                            && !tile.hasTag("Lock")
                             && !"test".equals(tile.getString("test"))) {
                         block.setType(Material.AIR);
                         throw new NbtApiException("The Lock wasn't successfully set.");
@@ -53,5 +55,4 @@ public class TileTest implements Test {
             }
         }
     }
-
 }

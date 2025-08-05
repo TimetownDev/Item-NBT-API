@@ -1,14 +1,12 @@
 package de.tr7zw.nbtapi.plugin.tests.items;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import com.google.gson.JsonElement;
-
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.utils.NBTJsonUtil;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemJsonTest implements Test {
 
@@ -24,5 +22,4 @@ public class ItemJsonTest implements Test {
             throw new NbtApiException("Getting the Json didn't work correctly! " + item);
         }
     }
-
 }

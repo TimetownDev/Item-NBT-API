@@ -1,21 +1,19 @@
 package de.tr7zw.nbtapi.plugin.tests.chunks;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.World;
-
 import de.tr7zw.changeme.nbtapi.NBTChunk;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.World;
 
 public class ChunkNBTPersistentTest implements Test {
 
     @Override
     public void test() throws Exception {
-        if (MinecraftVersion.getVersion().getVersionId() < MinecraftVersion.MC1_16_R3.getVersionId())
-            return;
+        if (MinecraftVersion.getVersion().getVersionId() < MinecraftVersion.MC1_16_R3.getVersionId()) return;
         if (!Bukkit.getWorlds().isEmpty()) {
             World world = Bukkit.getWorlds().get(0);
             try {
@@ -28,7 +26,10 @@ public class ChunkNBTPersistentTest implements Test {
                         throw new NbtApiException("Unable to remove key from Chunk!");
                     }
                     persistentData.setString("Foo", "Bar");
-                    if (!new NBTChunk(chunk).getPersistentDataContainer().getString("Foo").equals("Bar")) {
+                    if (!new NBTChunk(chunk)
+                            .getPersistentDataContainer()
+                            .getString("Foo")
+                            .equals("Bar")) {
                         throw new NbtApiException("Custom Data did not save to the Chunk!");
                     }
                 }
@@ -37,5 +38,4 @@ public class ChunkNBTPersistentTest implements Test {
             }
         }
     }
-
 }

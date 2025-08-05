@@ -10,7 +10,6 @@ import de.tr7zw.changeme.nbtapi.NBTReflectionUtil;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ClassWrapper;
-import de.tr7zw.changeme.nbtapi.utils.nmsmappings.MojangToMapping;
 import de.tr7zw.changeme.nbtapi.utils.nmsmappings.ReflectionMethod;
 
 public class DataFixerUtil {
@@ -31,20 +30,20 @@ public class DataFixerUtil {
     public static final int VERSION1_21 = 3953;
     public static final int VERSION1_21_2 = 4080;
     public static final int VERSION1_21_3 = 4189;
-    public static final int VERSION1_21_5 = 4323;
+    public static final int VERSION1_21_4 = 4323;
+    public static final int VERSION1_21_5 = 4435;
 
     @SuppressWarnings("unchecked")
     public static Object fixUpRawItemData(Object nbt, int fromVersion, int toVersion)
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         DataFixer dataFixer = (DataFixer) ReflectionMethod.GET_DATAFIXER.run(null);
-        TypeReference itemStackReference = (TypeReference) ClassWrapper.NMS_REFERENCES
-                .getClazz()
-                .getField(MojangToMapping.getMapping().get("net.minecraft.util.datafix.fixes.References#ITEM_STACK"))
+        TypeReference itemStackReference = (TypeReference) ReflectionUtil.getMappedField(
+                        ClassWrapper.NMS_REFERENCES.getClazz(),
+                        "net.minecraft.util.datafix.fixes.References#ITEM_STACK")
                 .get(null);
-        DynamicOps<Object> nbtOps = (DynamicOps<Object>) ClassWrapper.NMS_NBTOPS
-                .getClazz()
-                .getField(MojangToMapping.getMapping().get("net.minecraft.nbt.NbtOps#INSTANCE"))
-                .get(null);
+        DynamicOps<Object> nbtOps = (DynamicOps<Object>)
+                ReflectionUtil.getMappedField(ClassWrapper.NMS_NBTOPS.getClazz(), "net.minecraft.nbt.NbtOps#INSTANCE")
+                        .get(null);
         Dynamic<Object> fixed =
                 dataFixer.update(itemStackReference, new Dynamic<Object>(nbtOps, nbt), fromVersion, toVersion);
         return fixed.getValue();
@@ -68,8 +67,10 @@ public class DataFixerUtil {
      * @return
      */
     public static int getCurrentVersion() {
-        if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_21_R4)) {
+        if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_21_R5)) {
             return VERSION1_21_5;
+        } else if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_21_R4)) {
+            return VERSION1_21_4;
         } else if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_21_R3)) {
             return VERSION1_21_3;
         } else if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_21_R2)) {

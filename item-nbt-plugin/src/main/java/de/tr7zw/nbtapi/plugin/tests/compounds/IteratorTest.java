@@ -4,7 +4,6 @@ import de.tr7zw.changeme.nbtapi.NBTContainer;
 import de.tr7zw.changeme.nbtapi.NBTList;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.nbtapi.plugin.tests.Test;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -61,5 +60,4 @@ public class IteratorTest implements Test {
             throw new NbtApiException("iterator test failed");
         }
     }
-
 }

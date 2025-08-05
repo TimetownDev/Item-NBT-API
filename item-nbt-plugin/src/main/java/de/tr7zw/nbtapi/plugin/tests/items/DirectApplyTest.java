@@ -1,12 +1,11 @@
 package de.tr7zw.nbtapi.plugin.tests.items;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class DirectApplyTest implements Test {
 
@@ -24,7 +23,7 @@ public class DirectApplyTest implements Test {
             return nbt.getString("SomeKey");
         });
         baseItem = NBT.itemStackFromNBT(NBT.itemStackToNBT(baseItem)); // trick to force the item to be "real", not a
-                                                                       // Spigot only item
+        // Spigot only item
         String outside = NBT.get(baseItem, nbt -> {
             return nbt.getString("SomeKey");
         });
@@ -38,5 +37,4 @@ public class DirectApplyTest implements Test {
             throw new NbtApiException("Outside returned the wrong value!");
         }
     }
-
 }

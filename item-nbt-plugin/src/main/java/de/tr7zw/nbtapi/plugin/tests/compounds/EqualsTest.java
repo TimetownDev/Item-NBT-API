@@ -1,14 +1,12 @@
 package de.tr7zw.nbtapi.plugin.tests.compounds;
 
-import java.util.Arrays;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import java.util.Arrays;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class EqualsTest implements Test {
 
@@ -49,5 +47,4 @@ public class EqualsTest implements Test {
             throw new NbtApiException("Missmatched nbt did match!");
         }
     }
-
 }

@@ -1,12 +1,11 @@
 package de.tr7zw.nbtapi.plugin.tests.items;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class NBTModifyItemTest implements Test {
 
@@ -88,10 +87,10 @@ public class NBTModifyItemTest implements Test {
             });
             nbt.setInteger("b", 12);
         });
-        if (!new NBTItem(baseItem).hasTag("a") || !new NBTItem(baseItem).hasTag("b")
+        if (!new NBTItem(baseItem).hasTag("a")
+                || !new NBTItem(baseItem).hasTag("b")
                 || !"Test".equals(baseItem.getItemMeta().getDisplayName())) {
             throw new NbtApiException("The data was not applied: " + new NBTItem(baseItem).toString());
         }
     }
-
 }

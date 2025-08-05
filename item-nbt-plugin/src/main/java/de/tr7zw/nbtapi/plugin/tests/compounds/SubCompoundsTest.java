@@ -52,5 +52,4 @@ public class SubCompoundsTest implements Test {
             throw new NbtApiException("getOrCreateCompound did not return the same compound!");
         }
     }
-
 }

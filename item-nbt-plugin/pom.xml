@@ -4,7 +4,7 @@
   <parent>
     <groupId>de.tr7zw</groupId>
     <artifactId>item-nbt-parent</artifactId>
-    <version>2.15.0</version>
+    <version>2.15.2-SNAPSHOT</version>
   </parent>
   <artifactId>item-nbt-api-plugin</artifactId>
   <packaging>jar</packaging>
@@ -12,7 +12,7 @@
     <dependency>
       <groupId>de.tr7zw</groupId>
       <artifactId>item-nbt-api</artifactId>
-      <version>2.15.0</version>
+      <version>2.15.2-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -20,6 +20,13 @@
 	    <artifactId>datafixerupper</artifactId>
 	    <version>4.0.26</version>
 	    <scope>provided</scope>
+	</dependency>
+  <dependency>
+	  <groupId>org.bstats</groupId>
+	  <artifactId>bstats-bukkit</artifactId>
+	  <version>3.1.0</version>
+    <!-- Overwrite to provided -->
+	  <scope>provided</scope>
 	</dependency>
   </dependencies>
   <build>
@@ -40,14 +47,6 @@
             <relocation>
               <pattern>de.tr7zw.changeme.nbtapi</pattern>
               <shadedPattern>de.tr7zw.nbtapi</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>javassist</pattern>
-              <shadedPattern>de.tr7zw.nbtinjector.javassist</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>de.tr7zw.annotations</pattern>
-              <shadedPattern>de.tr7zw.nbtapi.utils.annotations</shadedPattern>
             </relocation>
           </relocations>
           <transformers>

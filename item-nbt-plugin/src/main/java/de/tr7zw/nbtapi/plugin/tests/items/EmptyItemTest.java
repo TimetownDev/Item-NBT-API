@@ -1,12 +1,11 @@
 package de.tr7zw.nbtapi.plugin.tests.items;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.nbtapi.plugin.tests.Test;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class EmptyItemTest implements Test {
 
@@ -69,5 +68,4 @@ public class EmptyItemTest implements Test {
         nbt.removeKey("not there");
         nbt.setBoolean("test", true);
     }
-
 }
