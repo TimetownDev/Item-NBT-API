@@ -52,7 +52,9 @@ public enum MinecraftVersion {
     MC1_21_R2(1212, true),
     MC1_21_R3(1213, true),
     MC1_21_R4(1214, true),
-    MC1_21_R5(1215, true);
+    MC1_21_R5(1215, true),
+    MC1_21_R6(1216, true),
+    MC1_21_R7(1217, true);
 
     private static MinecraftVersion version;
     private static Boolean hasGsonSupport;
@@ -69,7 +71,7 @@ public enum MinecraftVersion {
     private static Logger logger = Logger.getLogger("NBTAPI");
 
     // NBT-API Version
-    protected static final String VERSION = "2.15.2-SNAPSHOT";
+    protected static final String VERSION = "2.15.5";
 
     private final int versionId;
     private final boolean mojangMapping;
@@ -94,6 +96,9 @@ public enum MinecraftVersion {
             this.put("1.21.6", MC1_21_R5);
             this.put("1.21.7", MC1_21_R5);
             this.put("1.21.8", MC1_21_R5);
+            this.put("1.21.9", MC1_21_R6);
+            this.put("1.21.10", MC1_21_R6);
+            this.put("1.21.11", MC1_21_R7);
         }
     };
 

@@ -240,6 +240,7 @@ public class MojangToMapping {
             put(
                     "net.minecraft.world.item.ItemStack#parse(net.minecraft.core.HolderLookup$Provider,net.minecraft.nbt.Tag)",
                     "a");
+            put("net.minecraft.world.item.ItemStack#CODEC", "b");
         }
     };
 
@@ -292,8 +293,40 @@ public class MojangToMapping {
         }
     };
 
+    @SuppressWarnings("serial")
+    private static Map<String, String> MC1_21R6 = new HashMap<String, String>() {
+
+        {
+            putAll(MC1_21R5);
+
+            put("net.minecraft.server.MinecraftServer#registryAccess()", "bg");
+            put("net.minecraft.world.entity.Entity#load(net.minecraft.world.level.storage.ValueInput)", "d");
+            put("net.minecraft.world.entity.Entity#getEncodeId()", "bW");
+            put("net.minecraft.world.item.component.CustomData#copyTag()", "b");
+            put("net.minecraft.world.level.block.entity.BlockEntity#getBlockState()", "o");
+            put("net.minecraft.util.datafix.fixes.References#ITEM_STACK", "v");
+        }
+    };
+
+    @SuppressWarnings("serial")
+    private static Map<String, String> MC1_21R7 = new HashMap<String, String>() {
+
+        {
+            putAll(MC1_21R6);
+
+            put("net.minecraft.nbt.NbtAccounter#unlimitedHeap()", "c");
+            put("net.minecraft.server.MinecraftServer#registryAccess()", "bc");
+            put("net.minecraft.world.entity.Entity#getEncodeId()", "ca");
+            put("net.minecraft.util.datafix.fixes.References#ITEM_STACK", "x");
+        }
+    };
+
     public static Map<String, String> getMapping() {
         switch (MinecraftVersion.getVersion()) {
+            case MC1_21_R7:
+                return MC1_21R7;
+            case MC1_21_R6:
+                return MC1_21R6;
             case MC1_21_R5:
                 return MC1_21R5;
             case MC1_21_R4:
